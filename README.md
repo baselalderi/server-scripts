@@ -4,7 +4,7 @@ This is a collection of some of the scripts I use on my server.
 
 ### Google Drive Backup:
 
-I'll start off with a short bash script I made to back up some things onto Google Drive. To do so, I'm using the excellent [Google Drive CLI Client (GDrive)][1].
+I'll start off with a short bash script I wrote to back up some things from my development server onto Google Drive. To do so, I'm using the excellent [Google Drive CLI Client (GDrive)][1].
 
 To get GDrive installed, locate the binary specific to your system then download it. For me (using 64-bit Ubuntu), the command was:
 
@@ -32,15 +32,16 @@ For the time being, I have my web and database files backing up every day while 
 - MYSQLDBS: The MySQL databases you want to dump, one database per line
 - MYSQLUN: The MySQL username you want mysqldump to use
 - MYSQLPW: The MySQL password you want mysqldump to use<sup>[2](#2)</sup>
-- CONFBUDAY: The day of the month you want the script to backup server configs. Example: if you want to back up your configs on the 5th of every month, use `CONFBUDAY='05'`. Don't forget the leading zero.
+- CONFBUDAY: The day of the month you want the script to backup server configs<sup>[3](#3)</sup>
 
-*<a name="1">1</a>. If GDBASE doesn't already exist in Google Drive, the backup script will create it in Google Drive's root directory*
-
-*<a name="2">2</a>. You might not want to leave your MySQL password in plain text. An alternative would be to set it in your my.cnf config file. See [here][3] for some more information.*
+Notes:
+1. <a name="1"></a>If GDBASE doesn't already exist in Google Drive, the backup script will create it in Google Drive's root directory.
+2. <a name="2"></a>You might not want to leave your MySQL password written in plain text inside this script. An alternative would be to set it in your `my.cnf` config file. See [here][3] for some more information.
+3. <a name="3"></a>Example: if you want to back up your server configs on the 5th of every month, use `CONFBUDAY='05'`. Don't forget the leading zero.
 
 #### Cron/Logging:
 
-If you're like me, you want to automate the backup script and log its output in one easy step. With a script this simple, cron provides an excellent means to doing this. Here's what I use in my crontab:
+If you're like me, you want to automate the backup script and log its output in one easy step. With such a simple script, cron provides an excellent means to doing just that. Here's what I use in my crontab:
 
 `30  1   *   *   *   /path/to/gdrive-backup.sh > /path/to/gdrive-backup-$(date +\%F-\%H-\%M-\%S).log 2>&1`
 
@@ -49,8 +50,8 @@ Now the script runs every morning at 1:30AM, and logs the output to a unique (ti
 ### To Do:
 - [X] Google Drive backup script (using [GDrive][1])
 - [X] Google Drive backup improvement: create Google Drive directories if they don't already exist
-- [ ] Google Drive file sync (using [RClone][2])
 - [ ] Deployment script with rsync
+- [ ] Google Drive file sync (using [RClone][2])
 
 [1]: https://github.com/prasmussen/gdrive
 [2]: https://github.com/ncw/rclone/
