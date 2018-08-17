@@ -1,4 +1,5 @@
 #!/bin/bash -e
+PATH=/usr/sbin:$PATH # Make sure cron sees the gdrive executable
 
 ### Settings ###
 GDBASE='ServerBackup' # Base backup directory in Google Drive
