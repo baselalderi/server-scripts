@@ -40,7 +40,7 @@ For the time being, I have my web and database files backing up every day while 
 
 #### Cron/Logging:
 
-If you're like me, you want to automate this and log the output as easily as possible. With a script this simple, cron provides an excellent means to doing this. Here's what I use in my crontab:
+If you're like me, you want to automate the backup script and log the output in one easy step. With a script this simple, cron provides an excellent means to doing this. Here's what I use in my crontab:
 
 `30  1   *   *   *   /path/to/gdrive-backup.sh > /path/to/drive-backup-$(date +%F-%H-%M-%S).log 2>&1`
 
@@ -48,7 +48,7 @@ Now the script runs every morning at 1:30AM, and logs the output to a unique (ti
 
 ### To Do:
 - [X] Google Drive backup script (using [GDrive][1])
-- [X] Google Drive backup improvement: check for directories and create them if they don't exist
+- [X] Google Drive backup improvement: create Google Drive directories if they don't already exist
 - [ ] Google Drive file sync (using [RClone][2])
 - [ ] Deployment script with rsync
 
