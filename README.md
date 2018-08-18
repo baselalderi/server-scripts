@@ -1,6 +1,6 @@
 # Server Scripts
 
-This is a collection of some of the scripts I use on my server.
+A collection of scripts I use regularly.
 
 ### Google Drive Backup:
 
