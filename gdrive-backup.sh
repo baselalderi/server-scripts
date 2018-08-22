@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash -le
 PATH=/usr/sbin:$PATH # Make sure cron sees the gdrive executable
 
 ### Settings ###
