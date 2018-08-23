@@ -60,13 +60,14 @@ if [[ "$(date +%d)" == "$CONFBUDAY" ]]; then
 
     UPLOADSUCCESS=0;
     until [[ "$UPLOADSUCCESS" == "1" ]]; do
-        gdrive upload $TMPDIR/conf-$DATETIME.tar.gz -p $GDCONFID;
-        
-        if [[ "$?" == "0" ]]; then UPLOADSUCCESS=1; else sleep 1s; fi; # Adding "sleep 1s" so as to not piss of Google
+    	gdrive upload $TMPDIR/conf-$DATETIME.tar.gz -p $GDCONFID;
+
+    	# Adding "sleep 1s" so as to not piss of Google
+    	if [[ "$?" == "0" ]]; then UPLOADSUCCESS=1; else sleep 1s; fi;
     done;
 
-	# Keep the temp directory tidy
-	rm $TMPDIR/conf-$DATETIME.tar.gz;
+    # Keep the temp directory tidy
+    rm $TMPDIR/conf-$DATETIME.tar.gz;
 fi;
 
 # Web backup
@@ -78,8 +79,9 @@ UPLOADSUCCESS=0;
 until [[ "$UPLOADSUCCESS" == "1" ]]; do
 	gdrive upload $TMPDIR/web-$DATETIME.tar.gz -p $GDWEBID &&
 	gdrive upload $TMPDIR/mysql-$DATETIME.gz -p $GDWEBID;
-    
-    if [[ "$?" == "0" ]]; then UPLOADSUCCESS=1; else sleep 1s; fi; # Adding "sleep 1s" so as to not piss of Google
+
+	# Adding "sleep 1s" so as to not piss of Google
+	if [[ "$?" == "0" ]]; then UPLOADSUCCESS=1; else sleep 1s; fi;
 done;
 
 # Remove the temp directory
