@@ -1,4 +1,4 @@
-#!/bin/bash -le
+#!/bin/bash
 PATH=/usr/sbin:$PATH # Make sure cron sees the gdrive executable
 
 ### Settings ###
@@ -56,19 +56,31 @@ if [[ ! -d "$TMPDIR" ]]; then mkdir $TMPDIR; fi;
 
 # Configs backup
 if [[ "$(date +%d)" == "$CONFBUDAY" ]]; then
-    tar -zcvf $TMPDIR/conf-$DATETIME.tar.gz ${CONFDIRS[*]} &&
+    tar -zcvf $TMPDIR/conf-$DATETIME.tar.gz ${CONFDIRS[*]};
 
-    gdrive upload $TMPDIR/conf-$DATETIME.tar.gz -p $GDCONFID --delete;
+    UPLOADSUCCESS=0;
+    until [[ "$UPLOADSUCCESS" == "1" ]]; do
+        gdrive upload $TMPDIR/conf-$DATETIME.tar.gz -p $GDCONFID;
+        
+        if [[ "$?" == "0" ]]; then UPLOADSUCCESS=1; else sleep 1s; fi; # Adding "sleep 1s" so as to not piss of Google
+    done;
+
+	# Keep the temp directory tidy
+	rm $TMPDIR/conf-$DATETIME.tar.gz;
 fi;
 
 # Web backup
 tar -zcvf $TMPDIR/web-$DATETIME.tar.gz ${WEBDIRS[*]} &&
 
-mysqldump --user="$MYSQLUN" --password="$MYSQLPW" --opt --quick --single-transaction --skip-lock-tables --routines --triggers --events --databases ${MYSQLDBS[*]} | gzip -c > $TMPDIR/mysql-$DATETIME.gz &&
+mysqldump --user="$MYSQLUN" --password="$MYSQLPW" --opt --quick --single-transaction --skip-lock-tables --routines --triggers --events --databases ${MYSQLDBS[*]} | gzip -c > $TMPDIR/mysql-$DATETIME.gz;
 
-gdrive upload $TMPDIR/web-$DATETIME.tar.gz -p $GDWEBID --delete &&
-
-gdrive upload $TMPDIR/mysql-$DATETIME.gz -p $GDWEBID --delete &&
+UPLOADSUCCESS=0;
+until [[ "$UPLOADSUCCESS" == "1" ]]; do
+	gdrive upload $TMPDIR/web-$DATETIME.tar.gz -p $GDWEBID &&
+	gdrive upload $TMPDIR/mysql-$DATETIME.gz -p $GDWEBID;
+    
+    if [[ "$?" == "0" ]]; then UPLOADSUCCESS=1; else sleep 1s; fi; # Adding "sleep 1s" so as to not piss of Google
+done;
 
 # Remove the temp directory
 rm -rf $TMPDIR;
