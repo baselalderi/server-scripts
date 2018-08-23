@@ -12,7 +12,7 @@ Last, you need to authenticate GDrive and give it access to your Google Drive ac
 
 Now you can use the Google Drive backup script.
 
-*A small caveat: This script is intended to run in `bash` not `sh` in order for the array expansion to work properly. Don't change the `#!/bin/bash` on the first line into `#!/bin/sh`--unless, I suppose, you really know what you're doing (in which case, tell me what you did and why).*
+*A small caveat: This script is intended to run in* `bash` *not* `sh` *in order for the array expansion to work properly. Don't change the* `#!/bin/bash` *on the first line into* `#!/bin/sh` *-- unless, I suppose, you really know what you're doing (in which case, tell me what you did and why).*
 
 #### Schemas:
 
