@@ -38,16 +38,16 @@ DATETIME=$(date +%F-%H-%M-%S);
 TMPDIR="/tmp/ub-$DATETIME";
 
 # Get IDs for Base, Conf, and Web directories--if directories don't exist, create them
-GDBASEID=$(gdrive list -q "name contains '$GDBASE' and mimeType contains 'folder'" --order "folder,name" | grep "$GDBASE" | awk '{print $1}');
+GDBASEID=$(gdrive list -q "name contains '$GDBASE' and mimeType contains 'folder'" --order "folder,name" --no-header | grep "$GDBASE" | awk '{print $1}');
 if [[ "$GDBASEID" == "" ]]; then
 	GDBASEID=$(gdrive mkdir $GDBASE -p 'root' | awk '{print $2}');
 	GDCONFID=$(gdrive mkdir $GDCONF -p $GDBASEID | awk '{print $2}');
 	GDWEBID=$(gdrive mkdir $GDWEB -p $GDBASEID | awk '{print $2}');
 else
-	GDCONFID=$(gdrive list -q "'$GDBASEID' in parents and mimeType contains 'folder'" --order "folder,name" | grep "$GDCONF" | awk '{print $1}');
+	GDCONFID=$(gdrive list -q "'$GDBASEID' in parents and mimeType contains 'folder'" --order "folder,name" --no-header | grep "$GDCONF" | awk '{print $1}');
 	if [[ "$GDCONFID" == "" ]]; then GDCONFID=$(gdrive mkdir $GDCONF -p $GDBASEID | awk '{print $2}'); fi;
 
-	GDWEBID=$(gdrive list -q "'$GDBASEID' in parents and mimeType contains 'folder'" --order "folder,name" | grep "$GDWEB" | awk '{print $1}');
+	GDWEBID=$(gdrive list -q "'$GDBASEID' in parents and mimeType contains 'folder'" --order "folder,name" --no-header | grep "$GDWEB" | awk '{print $1}');
 	if [[ "$GDWEBID" == "" ]]; then GDWEBID=$(gdrive mkdir $GDWEB -p $GDBASEID | awk '{print $2}'); fi;
 fi;
 
