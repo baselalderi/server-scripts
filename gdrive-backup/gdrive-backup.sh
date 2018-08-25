@@ -2,9 +2,9 @@
 PATH=/usr/sbin:$PATH # Make sure cron sees the gdrive executable
 
 ### Settings ###
-GDBASE='ServerBackup' # Base backup directory in Google Drive
-GDCONF='Conf' # Configs backup directory
-GDWEB='Web' # Web backup directory
+GDBASE='ServerBackup'; # Base backup directory in Google Drive
+GDCONF='Conf'; # Configs backup directory
+GDWEB='Web'; # Web backup directory
 
 # Server configs directories 
 CONFDIRS=(
@@ -12,25 +12,25 @@ CONFDIRS=(
 	/etc/mysql
 	/etc/nginx
 	/etc/php
-)
+);
 
 # Server web directories
 WEBDIRS=(
 	/opt/staging
 	/opt/www
-)
+);
 
 # MySQL Databases
 MYSQLDBS=(
 	DB1
 	DB2
 	DB3
-)
+);
 
-MYSQLUN='root' # Username for using mysqldump
-MYSQLPW='rootpassword' # Password for using mysqldump
+MYSQLUN='root'; # Username for using mysqldump
+MYSQLPW='rootpassword'; # Password for using mysqldump
 
-CONFBUDAY='01' # Day of the month to backup server configs
+CONFBUDAY='01'; # Day of the month to backup server configs
 ### End Settings ###
 
 # Get the datetime and use it to make a temp directory
