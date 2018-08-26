@@ -10,8 +10,8 @@ CINT='4 months'; # Interval for rolling Configs cleanup
 WINT='10 days'; # Interval for rolling Web cleanup
 
 DATETIME=$(date +%F-%H-%M-%S);
-CDATESTRING=ub-$(date --date="$CINT ago" +%Y-%m-%d); # The Configs string gdrive will search for
-WDATESTRING=ub-$(date --date="$WINT ago" +%Y-%m-%d); # The Web string gdrive will search for
+CDATESTRING=ub-$(date --date="$CINT ago" +%F); # The Configs string gdrive will search for
+WDATESTRING=ub-$(date --date="$WINT ago" +%F); # The Web string gdrive will search for
 
 GDBASEID=$(gdrive list -q "name contains '$GDBASE' and mimeType contains 'folder'" --order "folder,name" --no-header | grep "$GDBASE" | awk '{print $1}');
 GDCID=$(gdrive list -q "'$GDBASEID' in parents and mimeType contains 'folder'" --order "folder,name" --no-header | grep "$GDC" | awk '{print $1}');
