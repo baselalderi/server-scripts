@@ -22,5 +22,20 @@ CDEL=$(gdrive list -q "name contains '$CDATESTRING' and '$GDCID' in parents and 
 WDEL=$(gdrive list -q "name contains '$WDATESTRING' and '$GDWID' in parents and mimeType contains 'folder'" --order "folder,name" --no-header | grep "$WDATESTRING" | awk '{print $1}');
 
 # If FolderId's exist, delete the folders
-if [[ -n "$CDEL" ]]; then gdrive delete -r $CDEL; fi;
-if [[ -n "$WDEL" ]]; then gdrive delete -r $WDEL; fi;
+if [[ -n "$CDEL" ]]; then
+	DELETESUCCESS=0;
+	until [[ "$DELETESUCCESS" == "1" ]]; do
+		gdrive delete -r $CDEL;
+
+		if [[ "$?" == "0" ]]; then DELETESUCCESS=1; else sleep 1s; fi;
+	done;
+fi;
+
+if [[ -n "$WDEL" ]]; then
+	DELETESUCCESS=0;
+	until [[ "$DELETESUCCESS" == "1" ]]; do
+		gdrive delete -r $WDEL;
+
+		if [[ "$?" == "0" ]]; then DELETESUCCESS=1; else sleep 1s; fi;
+	done;
+fi;
