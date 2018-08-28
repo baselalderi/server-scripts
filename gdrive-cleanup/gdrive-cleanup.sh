@@ -9,7 +9,6 @@ GDWEB='Web'; # Web backup directory
 CINT='4 months'; # Interval for rolling Configs cleanup
 WINT='10 days'; # Interval for rolling Web cleanup
 
-DATETIME=$(date +%F-%H-%M-%S);
 CDATESTRING=ub-$(date --date="$CINT ago" +%F); # The Configs string gdrive will search for
 WDATESTRING=ub-$(date --date="$WINT ago" +%F); # The Web string gdrive will search for
 
