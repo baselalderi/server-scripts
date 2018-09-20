@@ -35,7 +35,7 @@ CONFBUDAY='01'; # Day of the month to backup server configs
 
 # Get the datetime and use it to make a temp directory
 DATETIME=$(date +%F-%H-%M-%S);
-TMPDIR="/tmp/ub-$DATETIME";
+TMPDIR="/tmp/$GDBASE-$DATETIME";
 
 # Get IDs for Base, Conf, and Web directories--if directories don't exist, create them
 GDBASEID=$(gdrive list -q "name contains '$GDBASE' and mimeType contains 'folder'" --order "folder,name" --no-header | grep "$GDBASE" | awk '{print $1}');
