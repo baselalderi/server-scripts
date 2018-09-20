@@ -11,6 +11,8 @@ Since backup archives are named according to their creation date, this script si
 - GDWEB: The folder in which web files and database dumps are stored
 - CINT: The time interval at which configs rolling cleanups occur<sup>[*](#note)</sup>
 - WINT: The time interval at which web rolling cleanups occur<sup>[*](#note)</sup>
+- CLEANLOGS: This boolean tells the script whether or not to clean up old log files
+- LOGSDIR: The directory in which log files are stored
 
 <a name="note"></a>* Example: specifying `WINT='10 days'` means the script will look for web archives from 10 days ago -- which, if performed daily, should leave you with 9-10 web backups depending on the execution time of this script relative to the backup script.
 

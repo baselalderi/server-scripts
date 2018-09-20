@@ -9,6 +9,9 @@ GDWEB='Web'; # Web backup directory
 CINT='4 months'; # Interval for rolling Configs cleanup
 WINT='10 days'; # Interval for rolling Web cleanup
 
+CLEANLOGS=true; # Whether or not to clean up log files (true/false)
+LOGSDIR='/path/to/logs'; # Path to logs directory (no trailing slash)
+
 CDATESTRING=ub-$(date --date="$CINT ago" +%F); # The Configs string gdrive will search for
 WDATESTRING=ub-$(date --date="$WINT ago" +%F); # The Web string gdrive will search for
 
@@ -38,3 +41,5 @@ if [[ -n "$WDEL" ]]; then
 		if [[ "$?" == "0" ]]; then DELETESUCCESS=1; else sleep 1s; fi;
 	done;
 fi;
+
+if [[ "$CLEANLOGS" == true ]]; then rm "$LOGSDIR/gdrive-backup-$WDATESTRING*"; rm "$LOGSDIR/gdrive-cleanup-$WDATESTRING*"; fi;
