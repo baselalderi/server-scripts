@@ -42,4 +42,4 @@ if [[ -n "$WDEL" ]]; then
 	done;
 fi;
 
-if [[ "$CLEANLOGS" == true ]]; then rm "$LOGSDIR/gdrive-backup-$WDATESTRING*"; rm "$LOGSDIR/gdrive-cleanup-$WDATESTRING*"; fi;
+if [[ "$CLEANLOGS" == true ]]; then rm "$LOGSDIR"/gdrive-backup-"$WDATESTRING"*; rm "$LOGSDIR"/gdrive-cleanup-"$WDATESTRING"*; fi;
