@@ -3,6 +3,8 @@ PATH=/usr/sbin:$PATH # Make sure cron sees the gdrive executable
 
 ### Settings ###
 
+GDRCLONEREMOTE='remote'; # Google Drive remote alias used by RClone
+
 GDCONFDIR='Conf'; # Configs backup directory
 GDCONFDELINT='4M'; # Interval for rolling Configs cleanup (RClone --min-age suffix)
 
@@ -18,16 +20,16 @@ LOGSDELINT='7 days'; # Interval for rolling log cleanup (Linux date format)
 LOGSDATESTRING=$(date --date="$LOGSDELINT ago" +%F);
 
 echo "Starting archive cleanup: $(date +%F-%H-%M-%S)";
-rclone about gd:;
+rclone about $GDRCLONEREMOTE:;
 
 # Configs cleanup
 echo "Cleaning '$GDCONFDIR' archives";
 
-CONFARRAY=($(rclone ls gd:$GDCONFDIR --min-age $GDCONFDELINT | awk '{print $2}' | grep -oP '^[^/]*' | tr ' ' '\n' | sort -u | tr '\n' ' '));
+CONFARRAY=($(rclone ls $GDRCLONEREMOTE:$GDCONFDIR --min-age $GDCONFDELINT | awk '{print $2}' | grep -oP '^[^/]*' | tr ' ' '\n' | sort -u | tr '\n' ' '));
 
 if [[ -n "$CONFARRAY" ]]; then
 	for LOCATION in "${CONFARRAY[@]}"; do
-		rclone purge gd:$GDCONFDIR/$LOCATION --drive-use-trash=false && echo "- Deleted $GDCONFDIR/$LOCATION";
+		rclone purge $GDRCLONEREMOTE:$GDCONFDIR/$LOCATION --drive-use-trash=false && echo "- Deleted $GDCONFDIR/$LOCATION";
 	done;
 else
 	echo "- No matching archives found in '$GDCONFDIR'";
@@ -36,11 +38,11 @@ fi;
 # Web cleanup
 echo "Cleaning '$GDWEBDIR' archives";
 
-WEBARRAY=($(rclone ls gd:$GDWEBDIR --min-age $GDWEBDELINT | awk '{print $2}' | grep -oP '^[^/]*' | tr ' ' '\n' | sort -u | tr '\n' ' '));
+WEBARRAY=($(rclone ls $GDRCLONEREMOTE:$GDWEBDIR --min-age $GDWEBDELINT | awk '{print $2}' | grep -oP '^[^/]*' | tr ' ' '\n' | sort -u | tr '\n' ' '));
 
 if [[ -n "$WEBARRAY" ]]; then
 	for LOCATION in "${WEBARRAY[@]}"; do
-		rclone purge gd:$GDWEBDIR/$LOCATION --drive-use-trash=false && echo "- Deleted $GDWEBDIR/$LOCATION";
+		rclone purge $GDRCLONEREMOTE:$GDWEBDIR/$LOCATION --drive-use-trash=false && echo "- Deleted $GDWEBDIR/$LOCATION";
 	done;
 else
 	echo "- No matching archives found in '$GDWEBDIR'";

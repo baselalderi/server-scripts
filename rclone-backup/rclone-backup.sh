@@ -3,6 +3,8 @@ PATH=/usr/sbin:$PATH # Make sure cron sees the gdrive executable
 
 ### Settings ###
 
+GDRCLONEREMOTE='remote'; # Google Drive remote alias used by RClone
+
 GDCONFDIR='Conf'; # Configs backup directory
 GDWEBDIR='Web'; # Web backup directory
 
@@ -39,7 +41,7 @@ DATETIME=$(date +%F-%H-%M-%S);
 TMPDIR=/tmp/sb-$DATETIME;
 
 echo "Starting Google Drive backup: $DATETIME";
-rclone about gd:
+rclone about $GDRCLONEREMOTE:
 
 # Delete temp directory if it exists so we can start fresh
 if [[ -d "$TMPDIR" ]]; then rm -rf $TMPDIR; fi;
@@ -53,7 +55,7 @@ if [[ "$(date +%d)" == "$CONFBACKUPDAY" ]]; then
 
 	tar -zcf $TMPDIR/conf-$DATETIME.tar.gz ${CONFDIRS[*]};
 
-	rclone copy $TMPDIR gd:$GDCONFDIR/$DATETIME && echo "- Finished '$GDCONFDIR' backup";
+	rclone copy $TMPDIR $GDRCLONEREMOTE:$GDCONFDIR/$DATETIME && echo "- Finished '$GDCONFDIR' backup";
 
 	# Tidy up the temp directory
 	rm -rf $TMPDIR/*;
@@ -66,7 +68,7 @@ tar -zcf $TMPDIR/web-$DATETIME.tar.gz ${WEBDIRS[*]} &&
 
 mysqldump --user="$MYSQLUN" --password="$MYSQLPW" --opt --quick --single-transaction --skip-lock-tables --routines --triggers --events --databases ${MYSQLDBS[*]} | gzip -c > $TMPDIR/mysql-$DATETIME.gz;
 
-rclone copy $TMPDIR gd:$GDWEBDIR/$DATETIME && echo "- Finished '$GDWEBDIR' backup";
+rclone copy $TMPDIR $GDRCLONEREMOTE:$GDWEBDIR/$DATETIME && echo "- Finished '$GDWEBDIR' backup";
 
 # Remove the temp directory
 rm -rf $TMPDIR && echo "Removed $TMPDIR";
