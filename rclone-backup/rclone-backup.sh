@@ -40,7 +40,7 @@ MYSQLPW='rootpassword'; # Password for using mysqldump
 DATETIME=$(date +%F-%H-%M-%S);
 TMPDIR=/tmp/sb-$DATETIME;
 
-echo "Starting Google Drive backup: $DATETIME";
+echo "Starting RClone backup: $DATETIME";
 rclone about $GDRCLONEREMOTE:
 
 # Delete temp directory if it exists so we can start fresh
